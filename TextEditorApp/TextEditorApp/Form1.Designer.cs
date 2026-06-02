@@ -28,7 +28,6 @@ namespace TextEditorApp
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
 
-            // menuStrip1
             this.menuStrip1.BackColor = System.Drawing.Color.FromArgb(59, 47, 41);
             this.menuStrip1.ForeColor = System.Drawing.Color.White;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -38,7 +37,6 @@ namespace TextEditorApp
             this.menuStrip1.Size = new System.Drawing.Size(800, 28);
             this.menuStrip1.TabIndex = 0;
 
-            // fileToolStripMenuItem
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.createToolStripMenuItem,
             this.exitToolStripMenuItem});
@@ -46,19 +44,16 @@ namespace TextEditorApp
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "Файл";
 
-            // createToolStripMenuItem
             this.createToolStripMenuItem.Name = "createToolStripMenuItem";
             this.createToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.createToolStripMenuItem.Text = "Створити";
             this.createToolStripMenuItem.Click += new System.EventHandler(this.createToolStripMenuItem_Click);
 
-            // exitToolStripMenuItem
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.exitToolStripMenuItem.Text = "Вихід";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
 
-            // richTextBox1
             this.richTextBox1.BackColor = System.Drawing.Color.FromArgb(28, 22, 19);
             this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -69,15 +64,14 @@ namespace TextEditorApp
             this.richTextBox1.Size = new System.Drawing.Size(800, 400);
             this.richTextBox1.TabIndex = 1;
             this.richTextBox1.Text = "";
+            this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
 
-            // statusStrip1
             this.statusStrip1.BackColor = System.Drawing.Color.FromArgb(59, 47, 41);
             this.statusStrip1.Location = new System.Drawing.Point(0, 428);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(800, 22);
             this.statusStrip1.TabIndex = 2;
 
-            // Form1
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(44, 34, 30);
@@ -87,7 +81,7 @@ namespace TextEditorApp
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
-            this.Text = "🥔 Brotato Note Pad v1.0";
+            this.Text = "Без імені — Brotato Pad";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
