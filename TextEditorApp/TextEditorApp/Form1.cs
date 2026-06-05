@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Drawing.Printing;
 using System.Windows.Forms;
 
 namespace TextEditorApp
@@ -38,6 +40,64 @@ namespace TextEditorApp
             currentFileName = "Без імені";
             isFileChanged = false;
             UpdateFormTitle();
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.Filter = "Текстові файли (*.txt)|*.txt|Rich Text Format (*.rtf)|*.rtf|Портативний документ (*.pdf)|*.pdf";
+                saveFileDialog.Title = "🥔 Зберегти файл у Brotato Pad";
+                saveFileDialog.DefaultExt = "txt";
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string filePath = saveFileDialog.FileName;
+                    string extension = Path.GetExtension(filePath).ToLower();
+
+                    if (extension == ".rtf")
+                    {
+                        richTextBox1.SaveFile(filePath, RichTextBoxStreamType.RichText);
+                    }
+                    else if (extension == ".pdf")
+                    {
+                        SaveAsPdf(filePath);
+                    }
+                    else
+                    {
+                        File.WriteAllText(filePath, richTextBox1.Text);
+                    }
+
+                    currentFileName = Path.GetFileName(filePath);
+                    isFileChanged = false;
+                    UpdateFormTitle();
+
+                    MessageBox.Show("Файл успішно збережено!", "Успіх", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        private void SaveAsPdf(string filePath)
+        {
+            using (PrintDocument printDocument = new PrintDocument())
+            {
+                printDocument.PrinterSettings.PrinterName = "Microsoft Print to PDF";
+                printDocument.PrinterSettings.PrintToFile = true;
+                printDocument.PrinterSettings.PrintFileName = filePath;
+
+                printDocument.PrintPage += (s, ev) =>
+                {
+                    ev.Graphics.DrawString(
+                        richTextBox1.Text,
+                        richTextBox1.Font,
+                        System.Drawing.Brushes.Black,
+                        ev.MarginBounds.Left,
+                        ev.MarginBounds.Top
+                    );
+                };
+
+                printDocument.Print();
+            }
         }
 
         private void richTextBox1_TextChanged(object sender, EventArgs e)
