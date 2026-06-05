@@ -43,6 +43,58 @@ namespace TextEditorApp
             UpdateFormTitle();
         }
 
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (isFileChanged)
+            {
+                DialogResult result = MessageBox.Show(
+                    "Поточний файл має незбережені зміни. Продовжити відкриття іншого файлу?",
+                    "Увага!",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning
+                );
+
+                if (result == DialogResult.No) return;
+            }
+
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = "Текстові файли (*.txt)|*.txt|Rich Text Format (*.rtf)|*.rtf|Портативний документ (*.pdf)|*.pdf|Усі файли (*.*)|*.*";
+                openFileDialog.Title = "🥔 Відкрити файл у Brotato Pad";
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string filePath = openFileDialog.FileName;
+                    string extension = Path.GetExtension(filePath).ToLower();
+
+                    try
+                    {
+                        if (extension == ".rtf")
+                        {
+                            richTextBox1.LoadFile(filePath, RichTextBoxStreamType.RichText);
+                        }
+                        else if (extension == ".pdf")
+                        {
+                            richTextBox1.Text = File.ReadAllText(filePath);
+                            MessageBox.Show("PDF файли відкриваються в режимі зчитування текстових даних.", "Інформація", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            richTextBox1.Text = File.ReadAllText(filePath);
+                        }
+
+                        currentFileName = Path.GetFileName(filePath);
+                        isFileChanged = false;
+                        UpdateFormTitle();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Помилка при відкритті файлу: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (SaveFileDialog saveFileDialog = new SaveFileDialog())
