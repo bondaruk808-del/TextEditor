@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Drawing;
 using System.Drawing.Printing;
 using System.Windows.Forms;
 
@@ -128,6 +129,68 @@ namespace TextEditorApp
                 if (result == DialogResult.No) e.Cancel = true;
             }
             base.OnFormClosing(e);
+        }
+
+        private void fontToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (FontDialog fontDialog = new FontDialog())
+            {
+                if (richTextBox1.SelectionFont != null)
+                {
+                    fontDialog.Font = richTextBox1.SelectionFont;
+                }
+
+                if (fontDialog.ShowDialog() == DialogResult.OK)
+                {
+                    richTextBox1.SelectionFont = fontDialog.Font;
+                }
+            }
+        }
+
+        private void textColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (ColorDialog colorDialog = new ColorDialog())
+            {
+                colorDialog.Color = richTextBox1.SelectionColor;
+
+                if (colorDialog.ShowDialog() == DialogResult.OK)
+                {
+                    richTextBox1.SelectionColor = colorDialog.Color;
+                }
+            }
+        }
+
+        private void backgroundColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (ColorDialog colorDialog = new ColorDialog())
+            {
+                colorDialog.Color = richTextBox1.SelectionBackColor;
+
+                if (colorDialog.ShowDialog() == DialogResult.OK)
+                {
+                    richTextBox1.SelectionBackColor = colorDialog.Color;
+                }
+            }
+        }
+
+        private void boldToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (richTextBox1.SelectionFont != null)
+            {
+                Font currentFont = richTextBox1.SelectionFont;
+                FontStyle newFontStyle = currentFont.Bold ? currentFont.Style & ~FontStyle.Bold : currentFont.Style | FontStyle.Bold;
+                richTextBox1.SelectionFont = new Font(currentFont.FontFamily, currentFont.Size, newFontStyle);
+            }
+        }
+
+        private void italicToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (richTextBox1.SelectionFont != null)
+            {
+                Font currentFont = richTextBox1.SelectionFont;
+                FontStyle newFontStyle = currentFont.Italic ? currentFont.Style & ~FontStyle.Italic : currentFont.Style | FontStyle.Italic;
+                richTextBox1.SelectionFont = new Font(currentFont.FontFamily, currentFont.Size, newFontStyle);
+            }
         }
     }
 }
